@@ -19,11 +19,12 @@ app.use((req, res, next) => {
     next();
 })
 
+//logMiddleware
 const logMiddleware = (req, res, next) => {
     console.log(req.body);
     next();
 }
-app.use(logMiddleware);
+//  app.use(logMiddleware);
 
 //AuthMiddleware - route specific
 const authMiddleware = (req, res, next) => {
@@ -54,16 +55,21 @@ app.post('/', (req, res) => {
 //POST - login
 app.post('/login', (req, res) => {
     // console.log(req.body);
-    const result = dataService.login(req, req.body.acno, req.body.pswd);
-    res.status(result.statusCode).json(result)
+    dataService.login(req, req.body.acno, req.body.pswd)
+    .then(result=>{
+        res.status(result.statusCode).json(result)
+    })
     // console.log(res.status(result.statusCode).json(result));
 });
 
 
 //POST - register
 app.post('/register', (req, res) => {
-    const result = dataService.register(req.body.uname, req.body.acno, req.body.pswd);
-    res.status(result.statusCode).json(result)
+    dataService.register(req.body.uname, req.body.acno, req.body.pswd)
+    .then(result=>{
+        res.status(result.statusCode).json(result)
+    })
+    
     // console.log(res.status(result.statusCode).json(result));
 });
 
