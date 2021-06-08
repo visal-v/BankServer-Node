@@ -54,7 +54,8 @@ const login = (req, accno, password) => {
         return {
           statusCode: 200,
           status: true,
-          message: "Succesfully Loged-In"
+          message: "Succesfully Loged-In",
+          name: user.username
         }
       }
       else {
@@ -83,6 +84,7 @@ const deposit = (acno, password, amt) => {
         message: "Invalid Credentials"
       }
     }
+
     user.balance+=amount;
     user.save();
     return {
@@ -91,6 +93,7 @@ const deposit = (acno, password, amt) => {
       balance: user.balance,
       message: amount + " credited and new balance is " + user.balance
     }
+    
   })
 }
 
@@ -111,6 +114,7 @@ const withdraw = (acno, password, amt) => {
         message: "Invalid Credentials"
       }
     }
+  
     user.balance-=amount;
     user.save();
     return {
@@ -119,6 +123,7 @@ const withdraw = (acno, password, amt) => {
       balance: user.balance,
       message: amount + " debited and new balance is " + user.balance
     }
+    
   })
 }
 

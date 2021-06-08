@@ -1,7 +1,15 @@
 const express = require('express');
 const session = require('express-session');
+const cors = require ('cors');
 const dataService = require('./services/data.service');
+
+
 const app = express();
+
+app.use(cors({
+    origin: 'http://localhost:4200' ,
+    credentials: true
+}))
 
 
 app.use(session({
@@ -19,12 +27,15 @@ app.use((req, res, next) => {
     next();
 })
 
+
 //logMiddleware
 const logMiddleware = (req, res, next) => {
     console.log(req.body);
     next();
 }
 //  app.use(logMiddleware);
+
+
 
 //AuthMiddleware - route specific
 const authMiddleware = (req, res, next) => {
@@ -78,8 +89,8 @@ app.post('/register', (req, res) => {
 //POST - deposit
 app.post('/deposit',authMiddleware, (req, res) => {
     console.log(req.session.currentUser);
-
-    dataService.deposit(req.body.acno, req.body.pswd, req.body.amount)
+// console.log(req.body.acno, req.body.pswd, req.body.amt);
+    dataService.deposit(req.body.acno, req.body.pswd, req.body.amt)
     .then(result=>{
         res.status(result.statusCode).json(result)
     })
@@ -90,7 +101,7 @@ app.post('/deposit',authMiddleware, (req, res) => {
 //POST - withdraw
 app.post('/withdraw',authMiddleware, (req, res) => {
 
-    dataService.withdraw(req.body.acno, req.body.pswd, req.body.amount)
+    dataService.withdraw(req.body.acno, req.body.pswd, req.body.amt)
     .then(result=> {
         res.status(result.statusCode).json(result)
     })   

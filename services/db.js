@@ -9,8 +9,8 @@ useUnifiedTopology: true
 
 const User = mongoose.model('User', {
     acno: Number,
-    username: String, 
-    password: String, 
+    username: String,
+    password: String,
     balance: Number
 })
 
